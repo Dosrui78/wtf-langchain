@@ -11,7 +11,7 @@ chat_prompt_template = ChatPromptTemplate.from_messages(
         ("human", "请再来一首唐诗。"),
     ]
 )
-
+print(chat_prompt_template)
 model = ChatOpenAI(
     api_key=os.getenv("DASHSCOPE_API_KEY"),
     base_url="http://dashscope.aliyuncs.com/compatible-mode/v1", # 指向阿里接口
