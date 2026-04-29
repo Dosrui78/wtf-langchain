@@ -30,9 +30,10 @@ few_shot_prompt = FewShotPromptTemplate(
     prefix="给出定义词的反义词，有如下示例：", # 前缀，用户提供
     suffix="基于示例词告诉我：{input_word}的反义词是？", # 后缀，用户提供
     input_variables=['input_word'] # 输入变量
-)
+) 
 
 # 获得最终提示词
 prompt_str = few_shot_prompt.format(input_word="冷")
-response = model.invoke(prompt_str)
-print(response.content)
+print(prompt_str)
+response = model.invoke(input=prompt_str)
+print(response)
