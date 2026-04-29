@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-from langchain_core.prompts import FewShotChatMessagePromptTemplate, PromptTemplate
+from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
 from langchain_openai import ChatOpenAI
 
 model = ChatOpenAI(
@@ -24,16 +24,15 @@ example_data = [
     {"word": "开", "antoym": "关"},
 ]
 
-few_shot_prompt = FewShotChatMessagePromptTemplate(
+few_shot_prompt = FewShotPromptTemplate(
     example_prompt=example_template, # 示例数据的提示词模板
-    example_data=example_data, # 示例数据
+    examples=example_data, # 示例数据
     prefix="给出定义词的反义词，有如下示例：", # 前缀，用户提供
     suffix="基于示例词告诉我：{input_word}的反义词是？", # 后缀，用户提供
     input_variables=['input_word'] # 输入变量
 )
 
-chain = few_shot_prompt | model
-
 # 获得最终提示词
-prompt_text = few_shot_prompt.invoke(input_word="冷").to_string()
-print(prompt_text)
+prompt_str = few_shot_prompt.format(input_word="冷")
+response = model.invoke(prompt_str)
+print(response.content)
